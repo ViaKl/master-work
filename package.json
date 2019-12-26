@@ -1,0 +1,21 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "express": "^4.17.1",
+    "gmail-send": "^1.8.10",
+    "mysql": "^2.17.1",
+    "ngrok": "^3.2.7",
+    "nodemailer": "^6.4.2",
+    "nodemon": "^2.0.2",
+    "pug": "^2.0.4"
+  }
+}
