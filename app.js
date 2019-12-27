@@ -1,8 +1,15 @@
 let express = require('express');
 let app = express();
+var bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer({dest: "public/images"});
+var fs = require('fs');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED='0';
 
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(upload.array());
 app.use(express.static('public'));
 
 app.set('view engine', 'pug');
@@ -16,8 +23,9 @@ const nodemailer = require('nodemailer');
 let con = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'root',
-    database: 'market'
+    password: 'foREVera7x',
+    database: 'market',
+    multipleStatements: "true"
 });
 
 app.listen(3000, function () {
@@ -53,6 +61,113 @@ app.get('/', function (req, res) {
       cat: JSON.parse(JSON.stringify(value[1]))
     });
   });
+});
+
+
+app.get('/admin/goods', function (req, res) {
+  let admin_goods = new Promise(function (resolve, reject) {
+    con.query(
+      "SELECT * FROM category; SELECT category.id, category.category, goods.* FROM category INNER JOIN goods ON category.id = goods.category;",
+        function (error, result, field) {
+          if (error) return reject(error);
+          resolve(result);
+        }
+    )
+  })
+  .then(function(result){
+    res.render('admin_good.ejs', {
+      categories: result[0],
+      goods: result[1]
+    });
+  })
+});
+
+app.post('/admin/goods/delete', function (req, res) {
+  let admin_goods = new Promise(function (resolve, reject) {
+    let { good_id } = req.body;
+    con.query(
+      "DELETE FROM goods WHERE id = " + good_id + ";",
+        function (error, result, field) {
+          if (error) return reject(error);
+          resolve(result);
+        }
+    )
+  })
+  .then(function(result){
+    res.send({
+      message: "Товар був успішно видалений"
+    });
+  })
+});
+
+app.get('/admin/goods/add', function (req, res) {
+  let admin_goods = new Promise(function (resolve, reject) {
+    con.query(
+      `SELECT * FROM category;`,
+        function (error, result, field) {
+          if (error) return reject(error);
+          resolve(result);
+        }
+    );
+  })
+  .then(function(result){
+    console.log(result);
+    res.render('admin_add_edit_good.ejs', {good: null, categories: result});
+  });
+});
+
+app.get('/admin/goods/edit/:good_id', function (req, res) {
+  let admin_goods = new Promise(function (resolve, reject) {
+    let good_id = req.params.good_id;
+    con.query(
+      `SELECT * FROM goods WHERE id = '${good_id}'; SELECT * FROM category;`,
+        function (error, result, field) {
+          if (error) return reject(error);
+          resolve(result);
+        }
+    );
+  })
+  .then(function(result){
+    console.log(result[0]);
+    res.render('admin_add_edit_good.ejs', {
+      good: result[0][0],
+      categories: result[1]
+    });
+  })
+});
+
+app.post('/admin/goods/edit', function (req, res) {
+  let admin_goods = new Promise(function (resolve, reject) {
+    console.log(req.body);
+    let {id, name, description, cost, category} = req.body;
+    con.query(
+      `UPDATE goods SET name = '${name}', description = '${description}', cost = '${cost}', category = '${category}' WHERE id = '${id}';`,
+        function (error, result, field) {
+          if (error) return reject(error);
+          resolve(result);
+        }
+    );
+  })
+  .then(function(result){
+    res.send({message: "Успішно"});
+  })
+});
+
+app.post('/admin/goods/add', function (req, res) {
+  let admin_goods = new Promise(function (resolve, reject) {
+    console.log(req.body);
+    let { name, description, cost, category } = req.body;
+    con.query(
+      `INSERT INTO goods (name, description, cost, category) VALUES ('${name}', '${description}', '${cost}', '${category}');`,
+        function (error, result, field) {
+          if (error) return reject(error);
+          resolve(result);
+        }
+    );
+  })
+  .then(function(result){
+    res.send({message: "Успішно"})
+  })
 });
 
 
@@ -199,11 +314,4 @@ async function sendMail(data, result){
 
   return true;
 }
-
-
-
-
-
-
-
 

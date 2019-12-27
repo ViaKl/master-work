@@ -1,0 +1,40 @@
+<html>
+<head></head>
+<body>
+    <a href="/admin/goods/add">Add Good</a>
+    <table>
+        <% for(var i=0; i < goods.length; i++) { %>
+            <tr data-id=<%= goods[i].id %>>
+              <td><%= goods[i].id %></td>
+              <td><%= goods[i].name %></td>
+              <td style="max-width: 600px;"><%= goods[i].description %></td>
+              <td><%= goods[i].image %></td>
+              <td><a href=<%= "/admin/goods/edit/" + goods[i].id %>>Edit</div></td>
+              <td><div class="delete">Delete</div></td>
+            </tr>
+         <% } %>
+    </table>
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <script>
+      $(".delete").click(function(){
+        var id = $(this).closest("tr").attr("data-id");
+
+        var request = $.ajax({ 
+            url:"/admin/goods/delete", 
+            type: "POST", 
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+            data: JSON.stringify({"good_id": id})  
+        });
+
+        request.done(function(res) {
+            
+        });
+    });
+    
+  </script>
+</html>

@@ -1,0 +1,101 @@
+<html>
+<head></head>
+<body>
+    <div>
+        <input type="text" id="name" value=<% if (good != null) { %> <%= good.name %> <% } %> >
+    </div>
+    <div>
+        <textarea id="description" name="Text1" cols="40" rows="5"><%= good.description %></textarea>
+    </div>
+    <div>
+        <input type="text" id="cost" value=<% if (good != null) { %> <%= good.cost %> <% } %> >
+    </div>
+    <div>
+        <select id="category">
+            <% for(var i=0; i < categories.length; i++) { %>
+                <option value=<%= categories[i].category %> category-id=<%= categories[i].id %> >
+                    <%= categories[i].category %>
+                </option>
+             <% } %>
+        </select>
+    </div>
+    <div>
+          <% if(good !== null){ %>
+            <button id="edit">Edit</button>
+          <% } else{ %>  
+            <button id="add">Add</button>
+         <% } %>
+    </div>
+    <% if(good !== null){ %>
+        <input type="hidden" id="good-id" value=<%= good.id %>>
+      <% } %>  
+    
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <script>
+      function edit_good(){
+        var id = $("#good-id").val();
+        var name = $("#name").val();
+        var description = $("#description").val();
+        var cost = $("#cost").val();
+        var category = $("#category option:selected").attr("category-id");
+
+        var request = $.ajax({ 
+            url:"/admin/goods/edit", 
+            type: "POST", 
+            method: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+            data:  JSON.stringify({
+                "id": id,
+                "name": name,
+                "description": description,
+                "cost": cost,
+                "category": category,
+            })
+        });
+
+        request.done(function(res) {
+            
+        });
+      }
+
+      function add_good(){
+        var name = $("#name").val();
+        var description = $("#description").val();
+        var cost = $("#cost").val();
+        var category = $("#category option:selected").attr("category-id");
+
+        var request = $.ajax({ 
+            url:"/admin/goods/add", 
+            type: "POST", 
+            method: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+            data:  JSON.stringify({
+                "name": name,
+                "description": description,
+                "cost": cost,
+                "category": category,
+            })
+        });
+
+        request.done(function(res) {
+            
+        });
+      }
+
+      $("#edit").click(function(){
+        console.log("click edit");
+        edit_good();
+      });
+
+    $("#add").click(function(){
+        console.log("click add");
+            add_good();
+    });
+  </script>
+</html>
