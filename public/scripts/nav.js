@@ -23,11 +23,11 @@ function getCategoryList(){
 }
 
 function showCategoryList(data) {
-  let out = '<ul class="category-list"><li><a href="/">Main</a></li>'
+  let out = '<ul class="category-list"><li><a href="/">Головна</a></li>';
   for(let i = 0; i < data.length; i++){
     out += `<li><a href="/cat?id=${data[i]['id']}">${data[i]['category']}</a></li>`
   }
-  out +='</ul>'
+  out +='</ul>';
   document.querySelector('#category-list').innerHTML = out;
 }
 

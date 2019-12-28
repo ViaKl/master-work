@@ -43,8 +43,36 @@ function ajaxGetGoodsInfo() {
 //
 // Формування кошику
 //
+// function showCart(data) {
+//   let out = '<div class="table table-striped table-cart">';
+//   let total = 0;
+//
+//   for(let key in cart){
+//     out += `<div><a href="/goods?id=${key}">${data[key]['name']}</a></div>`;
+//     out += `<div><i class="far fa-minus-square cart-minus" data-goods_id="${key}"></i></div>`;
+//     out += `<div>${cart[key]}</div>`;
+//     out += `<div><i class="far fa-plus-square cart-plus" data-goods_id="${key}"></i></div>`;
+//     out += `<div>${data[key]['cost']*cart[key]} uah</div>`;
+//     out += `</div>`;
+//     total += parseInt(cart[key]*data[key]['cost']);
+//   }
+//   out += `<div>Total: </td> <td>${total} uah</div>`;
+//   // out += '</div>';
+//
+//   document.querySelector('#cart-nav').innerHTML = out;
+//
+//   document.querySelectorAll('.cart-minus').forEach(function (element) {
+//     element.onclick = cartMinus;
+//   });
+//
+//   document.querySelectorAll('.cart-plus').forEach(function (element) {
+//     element.onclick = cartPlus;
+//   });
+//
+// }
+
 function showCart(data) {
-  let out = '<table class="table table-striped table-cart"><tbody>'
+  let out = '<table class="table table-striped table-cart"><tbody>';
   let total = 0;
 
   for(let key in cart){
@@ -56,8 +84,8 @@ function showCart(data) {
     out += `</tr>`;
     total += parseInt(cart[key]*data[key]['cost']);
   }
-  out += `<tr><td colspan="3">Total: </td> <td>${total} uah</td></tr>`
-  out += '</tbody></table>'
+  out += `<tr><td colspan="3">Total: </td> <td>${total} uah</td></tr>`;
+  out += '</tbody></table>';
 
   document.querySelector('#cart-nav').innerHTML = out;
 

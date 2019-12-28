@@ -1,19 +1,73 @@
 <html>
-<head></head>
+<head>
+    <style>
+        .goods-cortain{
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .goods-title_wrapper{
+            display: flex;
+        }
+        .goods-title_wrapper > div{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid black;
+            padding: 5px;
+            border-bottom: 1px solid black;
+        }
+        .goods-table_id{
+            min-width: 40px;
+            width: 5%;
+            border-left: 1px solid black;
+        }
+        .goods-table_name{
+            width: 13%;
+            min-width: 100px;
+        }
+        .goods-table_description{
+            width: 60%;
+        }
+        .goods-table_image{
+            width: 12%;
+        }
+        .goods-table_edit{
+            min-width: 40px;
+            width: 4%;
+        }
+        .goods-table_delete{
+            min-width: 60px;
+            width: 6%;
+        }
+        .goods-delete_btn{
+            color: #e20000;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
 <body>
     <a href="/admin/goods/add">Add Good</a>
-    <table>
+    <div class="goods-cortain">
+        <div class="goods-title_wrapper" style="background: blanchedalmond;font-weight: bold;border-top: 1px solid black;">
+            <div class="goods-table_id">ID</div>
+            <div class="goods-table_name">Name</div>
+            <div class="goods-table_description">Description</div>
+            <div class="goods-table_image">Image</div>
+            <div class="goods-table_edit">Edit</div>
+            <div class="goods-table_delete">Delete</div>
+        </div>
         <% for(var i=0; i < goods.length; i++) { %>
-            <tr data-id=<%= goods[i].id %>>
-              <td><%= goods[i].id %></td>
-              <td><%= goods[i].name %></td>
-              <td style="max-width: 600px;"><%= goods[i].description %></td>
-              <td><%= goods[i].image %></td>
-              <td><a href=<%= "/admin/goods/edit/" + goods[i].id %>>Edit</div></td>
-              <td><div class="delete">Delete</div></td>
-            </tr>
+            <div class="goods-title_wrapper" data-id=<%= goods[i].id %>>
+              <div class="goods-table_id"><%= goods[i].id %></div>
+              <div class="goods-table_name"><%= goods[i].name %></div>
+              <div class="goods-table_description"><%= goods[i].description %></div>
+              <div class="goods-table_image"><%= goods[i].image %></div>
+              <div class="goods-table_edit"><a href=<%= "/admin/goods/edit/" + goods[i].id %>>Edit</a></div>
+              <div class="goods-table_delete"><div class="goods-delete_btn">Delete</div></div>
+            </div>
          <% } %>
-    </table>
+    </div>
 </body>
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"

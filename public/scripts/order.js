@@ -8,16 +8,16 @@ document.querySelector('#lite-shop-order').onsubmit = function (event) {
   if(!document.querySelector('#rule').checked){
     //c правилами не согласен
     Swal.fire({
-      title: 'Warning',
-      text: 'Read and accept the rules',
+      title: 'Застереження',
+      text: 'Прочитайте та прийміть правила',
       type: 'info',
       confirmButtonText: 'Ok'
     });
   } else if (username === "" || phone === "" || email === "" || adress === ''){
     //не заполнені поля
     Swal.fire({
-      title: 'Warning',
-      text: 'Fill all fields',
+      title: 'Застереження',
+      text: 'Заповніть усі поля',
       type: 'info',
       confirmButtonText: 'Ok'
     });
@@ -40,14 +40,14 @@ document.querySelector('#lite-shop-order').onsubmit = function (event) {
     }).then(function (body) {
       if(body == 1){
         Swal.fire({
-          title: 'Success',
-          text: 'Success',
+          title: 'Ваше замовлення оформлено',
+          text: 'та передано нашому менеджеру',
           type: 'info',
           confirmButtonText: 'Ok'
         });
       }else {
         Swal.fire({
-          title: 'Problem with mail',
+          title: 'Проблеми з email',
           text: 'Error',
           type: 'error',
           confirmButtonText: 'Ok'

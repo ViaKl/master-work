@@ -23,7 +23,8 @@ const nodemailer = require('nodemailer');
 let con = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'foREVera7x',
+    // password: 'foREVera7x',
+    password: 'root',
     database: 'market',
     multipleStatements: "true"
 });
@@ -139,9 +140,9 @@ app.get('/admin/goods/edit/:good_id', function (req, res) {
 app.post('/admin/goods/edit', function (req, res) {
   let admin_goods = new Promise(function (resolve, reject) {
     console.log(req.body);
-    let {id, name, description, cost, category} = req.body;
+    let {id, name, description, cost, image, category} = req.body;
     con.query(
-      `UPDATE goods SET name = '${name}', description = '${description}', cost = '${cost}', category = '${category}' WHERE id = '${id}';`,
+      `UPDATE goods SET name = '${name}', description = '${description}', cost = '${cost}', image = '${image}', category = '${category}' WHERE id = '${id}';`,
         function (error, result, field) {
           if (error) return reject(error);
           resolve(result);
@@ -156,9 +157,9 @@ app.post('/admin/goods/edit', function (req, res) {
 app.post('/admin/goods/add', function (req, res) {
   let admin_goods = new Promise(function (resolve, reject) {
     console.log(req.body);
-    let { name, description, cost, category } = req.body;
+    let { name, description, cost, image, category } = req.body;
     con.query(
-      `INSERT INTO goods (name, description, cost, category) VALUES ('${name}', '${description}', '${cost}', '${category}');`,
+      `INSERT INTO goods (name, description, cost, image, category) VALUES ('${name}', '${description}', '${cost}', '${image}', '${category}');`,
         function (error, result, field) {
           if (error) return reject(error);
           resolve(result);

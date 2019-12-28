@@ -1,35 +1,99 @@
 <html>
-<head></head>
+<head>
+    <style>
+        .custom-cortain{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .custom-wrapper{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 15px;
+            border-radius: 10px;
+            background: #ffbc08;
+        }
+        .custom-wrapper > div{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+            width: 320px;
+        }
+        .custom-wrapper label{
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .custom-wrapper input,
+        .custom-wrapper textarea,
+        .custom-wrapper select{
+            width: 100%;
+        }
+        .custom-btn{
+            border: none;
+            background: #368840;
+            border-radius: 5px;
+            color: #fff;
+            padding: 5px 12px 5px 10px;
+            -webkit-transition: .3s;
+            -moz-transition: .3s;
+            -ms-transition: .3s;
+            -o-transition: .3s;
+            transition: .3s;
+            text-transform: capitalize;
+            outline: none;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
 <body>
-    <div>
-        <input type="text" id="name" value=<% if (good != null) { %> <%= good.name %> <% } %> >
+    <div class="custom-cortain">
+        <div class="custom-wrapper">
+            <div>
+                <label for="name">Name</label>
+                <input type="text" placeholder="Toy name" id="name" value=<% if (good != null) { %> <%= good.name %> <% } %> >
+            </div>
+            <div>
+                <label for="description">Description</label>
+                <textarea id="description" placeholder="Your text..." name="Text1" rows="5" style="resize: none;"><% if (good != null) { %> <%= good.description %> <% } %></textarea>
+            </div>
+            <div>
+                <label for="cost">Cost</label>
+                <input type="text" placeholder="825" id="cost" value=<% if (good != null) { %> <%= good.cost %> <% } %> >
+            </div>
+            <div>
+                <label for="image">Image</label>
+                <input type="text" placeholder="something.jpg" id="image" value=<% if (good != null) { %> <%= good.image %> <% } %> >
+            </div>
+            <div>
+                <label for="category">Category</label>
+                <select id="category">
+                    <% for(var i=0; i < categories.length; i++) { %>
+                        <option value=<%= categories[i].category %> category-id=<%= categories[i].id %> >
+                            <%= categories[i].category %>
+                        </option>
+                     <% } %>
+                </select>
+            </div>
+            <div>
+                  <% if(good !== null){ %>
+                    <button id="edit" class="custom-btn">Edit</button>
+                  <% } else{ %>
+                    <button id="add" class="custom-btn">Add</button>
+                 <% } %>
+            </div>
+
+        <% if(good !== null){ %>
+            <input type="hidden" id="good-id" value=<%= good.id %>>
+          <% } %>
+        </div>
     </div>
-    <div>
-        <textarea id="description" name="Text1" cols="40" rows="5"><%= good.description %></textarea>
-    </div>
-    <div>
-        <input type="text" id="cost" value=<% if (good != null) { %> <%= good.cost %> <% } %> >
-    </div>
-    <div>
-        <select id="category">
-            <% for(var i=0; i < categories.length; i++) { %>
-                <option value=<%= categories[i].category %> category-id=<%= categories[i].id %> >
-                    <%= categories[i].category %>
-                </option>
-             <% } %>
-        </select>
-    </div>
-    <div>
-          <% if(good !== null){ %>
-            <button id="edit">Edit</button>
-          <% } else{ %>  
-            <button id="add">Add</button>
-         <% } %>
-    </div>
-    <% if(good !== null){ %>
-        <input type="hidden" id="good-id" value=<%= good.id %>>
-      <% } %>  
-    
 </body>
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -41,6 +105,7 @@
         var name = $("#name").val();
         var description = $("#description").val();
         var cost = $("#cost").val();
+        var image = $("#image").val();
         var category = $("#category option:selected").attr("category-id");
 
         var request = $.ajax({ 
@@ -55,6 +120,7 @@
                 "description": description,
                 "cost": cost,
                 "category": category,
+                "image": image,
             })
         });
 
@@ -67,6 +133,7 @@
         var name = $("#name").val();
         var description = $("#description").val();
         var cost = $("#cost").val();
+        var image = $("#image").val();
         var category = $("#category option:selected").attr("category-id");
 
         var request = $.ajax({ 
@@ -80,6 +147,7 @@
                 "description": description,
                 "cost": cost,
                 "category": category,
+                "image": image,
             })
         });
 
